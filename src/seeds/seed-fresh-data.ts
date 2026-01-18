@@ -125,8 +125,8 @@ async function seedFreshData() {
                 continue;
             }
 
-            // Check for classifiedImages or imageUrls
-            const productImages = parseResult.product.classifiedImages?.map((img: any) => img.url) || parseResult.product.imageUrls || [];
+            // Get product images
+            const productImages = parseResult.product.imageUrls || [];
             if (productImages.length === 0) {
                 console.error(`   ❌ No product images found for ${model.name}`);
                 continue;
