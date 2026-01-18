@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Assets (large files)
+assets/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Google credentials (sensitive)
+google-credentials.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+test_image.jpg
+test-*.ts
+
+# Lock files (optional - uncomment if you want to exclude)
+# package-lock.json

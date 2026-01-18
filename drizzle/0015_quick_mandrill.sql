@@ -1,0 +1,1 @@
+ALTER TABLE "studio_generations" ADD COLUMN "transparent_url" text;

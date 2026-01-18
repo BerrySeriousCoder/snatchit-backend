@@ -1,0 +1,1 @@
+ALTER TABLE "looks" ADD COLUMN "base_image_url" text;
