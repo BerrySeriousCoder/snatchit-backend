@@ -74,6 +74,7 @@ export async function authenticateUser(req: AuthRequest, res: Response, next: Ne
         }
 
         // Attach user to request
+        req.user = user;
         logger.debug({ userId: user.id, duration: Date.now() - authStart }, 'Auth (Google)');
         next();
     } catch (error: any) {
