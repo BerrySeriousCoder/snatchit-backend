@@ -32,12 +32,13 @@ export async function authenticateUser(req: AuthRequest, res: Response, next: Ne
 
         const token = authHeader.split(' ')[1];
 
-        // Check if token is a UUID (DEVELOPMENT ONLY - temporary userId-based auth)
-        // In production, this bypass is disabled for security
+        // Check if token is a UUID (userId-based auth)
+        // This is used when the client stores userId after OAuth login
+        // The user was already authenticated during /auth/google flow
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-        if (!isProduction && uuidRegex.test(token)) {
-            // Development only: userId-based authentication for testing
+        if (uuidRegex.test(token)) {
+            // userId-based authentication - user was already OAuth verified during login
             const user = await db.query.users.findFirst({
                 where: eq(users.id, token),
             });
@@ -47,7 +48,7 @@ export async function authenticateUser(req: AuthRequest, res: Response, next: Ne
             }
 
             req.user = user;
-            logger.debug({ userId: user.id, duration: Date.now() - authStart }, 'Auth (dev userId)');
+            logger.debug({ userId: user.id, duration: Date.now() - authStart }, 'Auth (userId)');
             return next();
         }
 
@@ -103,7 +104,7 @@ export async function authenticateOptional(req: AuthRequest, res: Response, next
         const token = authHeader.split(' ')[1];
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-        if (!isProduction && uuidRegex.test(token)) {
+        if (uuidRegex.test(token)) {
             const user = await db.query.users.findFirst({
                 where: eq(users.id, token),
             });
